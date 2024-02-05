@@ -5,42 +5,43 @@ namespace App\Http\Controllers\Auth;
 
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Resources\Auth\UserResource;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Entities\Auth\RegisterObject;
+use App\Services\User\UsersService;
 
 class RegisterController extends Controller
 {
+    protected UsersService $usersService;
+
+    public function __construct(UsersService $usersService)
+    {
+        $this->usersService = $usersService;
+    }
+
     public function register(Request $request): JsonResponse
     {
-
         try {
+            $register = new RegisterObject($request,  $this->usersService);
+
             DB::beginTransaction();
-            $messages = $this->authMethods()->validateRegistroFrom($request);
 
-            if (!empty($messages)) {
-                return $this->generalMethods()->responseToApp(0, null, $messages[0]);
+            $user = $this->usersService->createUser($register);
+
+            if (is_null($user)) {
+                throw new Exception('Error al crear el usuario. Pongase en contacto con el servicio técnico o intentelo más tarde');
             }
-
-            $user = User::query()->create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => bcrypt($request->password)
-            ]);
 
             DB::commit();
 
-            $data =  [
-                'token' => null,
-                'user' => $user
-            ];
-
-            return $this->generalMethods()->responseToApp(1, $data, 'Registro completado correctamente');
-        }catch (\Exception $e) {
+            return $this->generalMethods()->responseToApp(1, new UserResource($user), 'Registro completado correctamente');
+        } catch (Exception $e) {
             DB::rollBack();
 
-            return $this->generalMethods()->responseToApp(0, null, $e->getMessage()[0]);
+            return $this->generalMethods()->responseToApp(0, null, $e->getMessage());
         }
     }
 }

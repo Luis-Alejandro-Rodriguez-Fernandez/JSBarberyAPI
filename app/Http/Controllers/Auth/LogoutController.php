@@ -4,17 +4,21 @@
 namespace App\Http\Controllers\Auth;
 
 
+use App\Entities\Auth\LogoutObject;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class LogoutController extends Controller
 {
 
-    public function logout(Request $request)
+    public function logout(): JsonResponse
     {
-        $user = $request->user();
+        $logoutObject = new LogoutObject();
 
-        if (!$user) {
+        $user = $logoutObject->getUser();
+
+        if (is_null($user)) {
             return $this->generalMethods()->responseToApp(0, null, 'Error al cerrar la sesión');
         }
 
