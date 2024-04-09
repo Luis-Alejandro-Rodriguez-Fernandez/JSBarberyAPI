@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('departments', function (Blueprint $table) {
+        Schema::create('admin_config', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->boolean("active")->default(true);
-            $table->softDeletes();
+            $table->text('first_journal');
+            $table->text('second_journal');
+            $table->text('disabled_days');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('departments');
+        Schema::dropIfExists('admin_config');
     }
 };

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UsersRepository
 {
-    public function findByEmail(string $email)
+    public function findByEmail(string $email): object|null
     {
         return User::query()->where('email', '=', $email)->first();
     }

@@ -1,5 +1,5 @@
 <?php
-namespace App\Entities\Auth;
+namespace App\ValueObjects\Auth;
 
 class LogoutObject
 {

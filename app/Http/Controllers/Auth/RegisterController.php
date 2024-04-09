@@ -10,7 +10,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Entities\Auth\RegisterObject;
+use App\ValueObjects\Auth\RegisterObject;
 use App\Services\User\UsersService;
 
 class RegisterController extends Controller
@@ -37,11 +37,12 @@ class RegisterController extends Controller
 
             DB::commit();
 
-            return $this->generalMethods()->responseToApp(1, new UserResource($user), 'Registro completado correctamente');
         } catch (Exception $e) {
             DB::rollBack();
 
             return $this->generalMethods()->responseToApp(0, null, $e->getMessage());
         }
+
+        return $this->generalMethods()->responseToApp(1, new UserResource($user), 'Registro completado correctamente');
     }
 }

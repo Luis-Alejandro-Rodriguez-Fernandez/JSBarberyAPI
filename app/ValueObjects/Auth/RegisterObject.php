@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entities\Auth;
+namespace App\ValueObjects\Auth;
 
 use App\Services\User\UsersService;
 use Exception;
@@ -72,7 +72,6 @@ class RegisterObject
      */
     private function validateName(): void
     {
-
         if (empty($this->name)) {
             throw new Exception("Debe introducir su nombre");
         }

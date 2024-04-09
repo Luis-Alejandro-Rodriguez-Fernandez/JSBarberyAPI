@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entities\Auth;
+namespace App\ValueObjects\Auth;
 
 use Exception;
 use Illuminate\Http\Request;
