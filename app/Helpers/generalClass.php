@@ -4,6 +4,8 @@
 namespace App\Helpers;
 
 
+use Illuminate\Support\Facades\Storage;
+
 class generalClass
 {
 
@@ -42,8 +44,8 @@ class generalClass
 
     public function parseFecha(
         ?string $fecha,
-        string  $formato = 'd/m/Y',
-        string  $formatoOrdenar = 'U'
+        string $formato = 'd/m/Y',
+        string $formatoOrdenar = 'U'
     ): array
     {
         return [
@@ -101,5 +103,10 @@ class generalClass
         }
 
         return $stringDuration;
+    }
+
+    public function saveFile($folder, $file): string
+    {
+        return Storage::disk('local')->put($folder, $file);
     }
 }

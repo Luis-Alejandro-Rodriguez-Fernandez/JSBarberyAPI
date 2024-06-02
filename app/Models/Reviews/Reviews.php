@@ -11,7 +11,9 @@ class Reviews extends Model
 {
     use SoftDeletes;
 
-    protected $table = [
+    protected $table = "reviews";
+
+    protected $fillable = [
         'id_reservation',
         'rating',
         'description',

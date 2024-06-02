@@ -11,7 +11,9 @@ class Reservation extends Model
 {
     use SoftDeletes;
 
-    protected $table = [
+    protected $table = "reservation";
+
+    protected $fillable = [
         'id_user',
         'id_service',
         'name',
