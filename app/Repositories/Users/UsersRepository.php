@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Users;
 
+use App\Models\Roles\Roles;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +18,7 @@ class UsersRepository
         return User::query()->create([
             'name' => $register->getName(),
             'last_name' => $register->getLastName(),
+            'role_id'=> Roles::getDefaultRole(),
             'email' => $register->getEmail(),
             'password' => bcrypt($register->getPassword()),
             'phone' => $register->getPhone(),

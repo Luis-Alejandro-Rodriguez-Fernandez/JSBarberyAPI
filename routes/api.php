@@ -3,6 +3,8 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Config\GetConfigController;
+use App\Http\Controllers\Config\UpdateConfigController;
 use App\Http\Controllers\Departments\CreateDepartmentController;
 use App\Http\Controllers\Departments\DeleteDepartmentController;
 use App\Http\Controllers\Departments\GetDepartmentController;
@@ -38,13 +40,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //Auth
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/register', [RegisterController::class, 'register']);
-Route::middleware('auth:sanctum')->post('/logout', [LogoutController::class, 'logout']);
+Route::middleware('auth:sanctum')->group(function () {
 
-Route::post('/departments/find', GetDepartmentController::class);
-Route::post('/departments/list', ListDepartmentsController::class);
-Route::post('/departments/new', CreateDepartmentController::class);
-Route::post('/departments/update', UpdateDepartmentController::class);
-Route::post('/departments/delete', DeleteDepartmentController::class);
+    Route::post('/logout', [LogoutController::class, 'logout']);
+
+    Route::post('/departments/find', GetDepartmentController::class);
+    Route::post('/departments/list', ListDepartmentsController::class);
+    Route::post('/departments/new', CreateDepartmentController::class);
+    Route::post('/departments/update', UpdateDepartmentController::class);
+    Route::post('/departments/delete', DeleteDepartmentController::class);
+
+    Route::post('/config', GetConfigController::class);
+    Route::post('/config/update', UpdateConfigController::class);
+});
+
 
 Route::post('/services/find', GetServiceController::class);
 Route::post('/services/list', ListServiceController::class);

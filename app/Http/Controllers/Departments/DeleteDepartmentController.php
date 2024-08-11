@@ -27,8 +27,8 @@ class DeleteDepartmentController extends Controller
 
             $isDeleted = $this->departmentService->delete($id);
 
-        }  catch (Exception $exception) {
-            return $this->generalMethods()->responseToApp(0, null,$exception->getMessage());
+        } catch (Exception $exception) {
+            return $this->generalMethods()->responseToApp(0, null, $exception->getMessage());
         }
 
         return $this->generalMethods()->responseToApp(1, $isDeleted, "Eliminado correctamente");

@@ -2,7 +2,10 @@
 
 namespace App\Services\Config;
 
+use App\Models\Config\Config;
 use App\Repositories\Config\ConfigRepository;
+use App\ValueObjects\Config\EditableConfig;
+use Exception;
 
 class  UpdateConfigService
 {
@@ -14,8 +17,26 @@ class  UpdateConfigService
         $this->configRepository = $configRepository;
     }
 
-    public function update()
+    /**
+     * @throws Exception
+     */
+    public function update(EditableConfig $configData): Config
     {
-//            $this->configRepository->
+        $config = $this->configRepository->getConfig();
+
+        $config->email = $configData->getEmail();
+        $config->email = $configData->getPhone();
+        $config->first_journal = $configData->getFirstJournal();
+        $config->second_journal = $configData->getSecondJournal();
+        $config->disabled_days = $configData->getDisabledDays();
+        $config->disabled_days = $configData->getInstagram();
+        $config->disabled_days = $configData->getTiktok();
+
+        if (!$config->save()) {
+            throw new Exception("No se puedo guardar los cambios a la configuración");
+        }
+
+        return $config;
     }
+
 }

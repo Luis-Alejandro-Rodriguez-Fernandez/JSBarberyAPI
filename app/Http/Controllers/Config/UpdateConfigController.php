@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\Config;
 
 use App\Http\Controllers\Controller;
+use App\Resources\Config\ConfigResource;
 use App\Services\Config\UpdateConfigService;
+use App\ValueObjects\Config\EditableConfig;
+use App\ValueObjects\Generals\IdObject;
+use Exception;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class UpdateConfigController extends Controller
 {
@@ -16,8 +21,22 @@ class UpdateConfigController extends Controller
         $this->updateConfigService = $updateConfigService;
     }
 
-    public function __invoke(): JsonResponse
+    /**
+     * @throws Exception
+     */
+    public function __invoke(Request $request): JsonResponse
     {
-        return $this->generalMethods()->responseToApp();
+        try {
+
+            $configData = EditableConfig::create(
+                $request
+            );
+
+            $updatedConf = $this->updateConfigService->update($configData);
+
+            return $this->generalMethods()->responseToApp(1, new ConfigResource($updatedConf));
+        } catch (Exception $exception) {
+            return $this->generalMethods()->responseToApp(0, $exception->getMessage());
+        }
     }
 }

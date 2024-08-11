@@ -13,9 +13,13 @@ return new class extends Migration
     {
         Schema::create('admin_config', function (Blueprint $table) {
             $table->id();
-            $table->text('first_journal');
-            $table->text('second_journal');
-            $table->text('disabled_days');
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
+            $table->text('first_journal')->nullable();
+            $table->text('second_journal')->nullable();
+            $table->text('disabled_days')->nullable();
+            $table->string('instagram')->nullable();
+            $table->string('tiktok')->nullable();
             $table->timestamps();
         });
     }

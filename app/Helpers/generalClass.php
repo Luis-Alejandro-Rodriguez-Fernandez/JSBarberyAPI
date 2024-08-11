@@ -4,6 +4,7 @@
 namespace App\Helpers;
 
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 
 class generalClass
@@ -33,7 +34,7 @@ class generalClass
         12 => 'Diciembre',
     ];
 
-    public function responseToApp($status, $data, $message = "")
+    public function responseToApp($status, $data, $message = ""): JsonResponse
     {
         return response()->json([
             'status' => $status,
