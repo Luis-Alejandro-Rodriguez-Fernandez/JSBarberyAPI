@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -21,6 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'last_name',
+        'role_id',
         'email',
         'phone',
         'password',
@@ -48,4 +48,34 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getPhone(): string
+    {
+        return $this->phone;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function getFullName(): string
+    {
+        return sprintf("%s %s", $this->getName(), $this->getLastName());
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getLastName(): string
+    {
+        return $this->last_name;
+    }
 }

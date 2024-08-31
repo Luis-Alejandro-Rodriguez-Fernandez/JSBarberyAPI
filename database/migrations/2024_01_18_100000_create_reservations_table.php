@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
+            $table->string('hash');
             $table->unsignedBigInteger('id_user')->nullable();
             $table->unsignedBigInteger('id_service');
             $table->string('name');
@@ -22,6 +23,7 @@ return new class extends Migration
             $table->float('price');
             $table->dateTime('appointment');
             $table->boolean('confirmation')->default(false);
+            $table->boolean('canceled')->default(false);
             $table->softDeletes();
             $table->timestamps();
 

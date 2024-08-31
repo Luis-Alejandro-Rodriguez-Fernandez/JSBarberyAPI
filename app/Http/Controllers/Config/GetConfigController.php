@@ -11,10 +11,13 @@ use Symfony\Component\HttpFoundation\Request;
 
 class GetConfigController extends Controller
 {
+    private ConfigRepository $repository;
+
     public function __construct(
-        private readonly ConfigRepository $repository,
+        ConfigRepository $repository,
     )
     {
+        $this->repository = $repository;
     }
 
     public function __invoke(Request $request): JsonResponse

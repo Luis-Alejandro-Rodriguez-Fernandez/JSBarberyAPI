@@ -64,6 +64,11 @@ class Services extends Model
         return $this->generalMethods()->parseDatoNumerico($this->price, '€');
     }
 
+    public function getPriceRaw(): float
+    {
+        return $this->price;
+    }
+
     public function isActive(): bool
     {
         return (bool)$this->active;

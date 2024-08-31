@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class UsersRepository
 {
+    public function find(int $id): User|Model|null
+    {
+        return User::query()->find($id);
+    }
+
     public function findByEmail(string $email): object|null
     {
         return User::query()->where('email', '=', $email)->first();

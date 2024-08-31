@@ -17,4 +17,45 @@ class Config extends Model
         'instagram',
         'tiktok',
     ];
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getPhone(): string
+    {
+        return $this->phone;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function getFirstJournal()
+    {
+
+    }
+
+    public function getSecondJournal()
+    {
+
+    }
+
+    public function getDisabledDays(): array
+    {
+        return $this->disabled_days;
+    }
+
+    public function getInstagram(): string
+    {
+        return $this->instagram;
+    }
+
+    public function getTiktok(): string
+    {
+        return $this->tiktok;
+    }
+
 }

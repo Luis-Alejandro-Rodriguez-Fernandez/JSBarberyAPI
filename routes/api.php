@@ -14,6 +14,12 @@ use App\Http\Controllers\Gallery\DeleteImageFromGalleryController;
 use App\Http\Controllers\Gallery\GetGalleryController;
 use App\Http\Controllers\Gallery\ListGalleryController;
 use App\Http\Controllers\Gallery\UploadImageToGalleryController;
+use App\Http\Controllers\Reservations\ConfirmReservationController;
+use App\Http\Controllers\Reservations\DeleteReservationController;
+use App\Http\Controllers\Reservations\GetPendingReservationsController;
+use App\Http\Controllers\Reservations\GetUserReservationsController;
+use App\Http\Controllers\Reservations\SetReservationController;
+use App\Http\Controllers\Reservations\SetUnauthenticatedReservationController;
 use App\Http\Controllers\Services\CreateServiceController;
 use App\Http\Controllers\Services\DeleteServiceController;
 use App\Http\Controllers\Services\GetServiceController;
@@ -52,8 +58,15 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/config', GetConfigController::class);
     Route::post('/config/update', UpdateConfigController::class);
+
+    Route::post('/reservation/confirm', ConfirmReservationController::class);
+    Route::post('/reservation/delete', DeleteReservationController::class);
+    Route::post('/reservation', GetPendingReservationsController::class);
+    Route::post('/reservation/user', GetUserReservationsController::class);
+    Route::post('/reservation/post', SetReservationController::class);
 });
 
+Route::post('/reservation/set', SetUnauthenticatedReservationController::class);
 
 Route::post('/services/find', GetServiceController::class);
 Route::post('/services/list', ListServiceController::class);

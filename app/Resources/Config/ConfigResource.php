@@ -15,6 +15,11 @@ class ConfigResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'phone' => $this->getPhone(),
+            'email' => $this->getEmail(),
+            'disabled_days' => $this->getDisabledDays(),
+            'instagram' => $this->getInstagram(),
+            'tiktok' => $this->getTiktok(),
         ];
     }
 }

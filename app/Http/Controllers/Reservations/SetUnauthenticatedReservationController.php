@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Reservations;
 
 use App\Http\Controllers\Controller;
 use App\Models\Services\Services;
-use App\Models\User;
 use App\Repositories\Reservations\ReservationRepository;
 use App\Repositories\Service\ServiceRepository;
+use App\Repositories\Users\UsersRepository;
 use App\Services\Reservetions\ReservationCreator;
 use App\ValueObjects\Reservations\UserReservationsItem;
 use Exception;
@@ -14,11 +14,12 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 
-class SetReservationController extends Controller
+class SetUnauthenticatedReservationController extends Controller
 {
     public function __construct(
         private ReservationRepository $repository,
         private ServiceRepository $serviceRepository,
+        private UsersRepository $usersRepository,
         private ReservationCreator $creator,
     )
     {
@@ -27,17 +28,26 @@ class SetReservationController extends Controller
     public function __invoke(Request $request): JsonResponse
     {
         try {
-            if (!auth()->check()) {
-                throw new Exception("Acceso Denegado");
-            }
-
             $service = null;
             $serviceId = $request->input('service_id');
+            $name = $request->input('name');
+            $lastName = $request->input('last_name');
+            $phone = $request->input('phone');
+            $email = $request->input('email');
             $date = $request->input('date');
             $time = $request->input('time');
 
-            /** @var User $user */
-            $user = auth()->user;
+            if (empty($name) || empty($lastName)) {
+                throw new Exception("El nombre y apellido son campos obligatorios");
+            }
+
+            if (empty($email)) {
+                throw new Exception("El email es un campo obligatorio");
+            }
+
+            if (!is_null($this->usersRepository->findByEmail($email))) {
+                return $this->generalMethods()->responseToApp(2, null, "Ya tienes una cuenta con este email");
+            }
 
             if (is_null($serviceId)) {
                 throw new Exception("Servicio desconocido");
@@ -60,9 +70,12 @@ class SetReservationController extends Controller
                 throw new Exception("El formato de la fecha no es válidado");
             }
 
-            $reservation = $this->creator->createFromUser(
-                $user,
+            $reservation = $this->creator->create(
                 $service,
+                $name,
+                $lastName,
+                $phone,
+                $email,
                 date('Y-m-d H:i:s', $datetime),
             );
 
