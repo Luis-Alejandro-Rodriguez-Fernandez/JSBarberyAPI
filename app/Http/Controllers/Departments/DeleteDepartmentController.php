@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Departments;
 
 use App\Http\Controllers\Controller;
 use App\Services\Department\DeleteDepartmentService;
+use App\Services\Department\GetDepartmentService;
 use App\ValueObjects\Generals\IdObject;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -12,7 +13,10 @@ class DeleteDepartmentController extends Controller
 {
     protected DeleteDepartmentService $departmentService;
 
-    public function __construct(DeleteDepartmentService $departmentService)
+    public function __construct(
+        DeleteDepartmentService $departmentService,
+        private readonly GetDepartmentService $getDepartmentService,
+    )
     {
         $this->departmentService = $departmentService;
     }
@@ -24,6 +28,8 @@ class DeleteDepartmentController extends Controller
     {
         try {
             $id = IdObject::create(request()->id)->value();
+
+            $this->getDepartmentService->find($id);
 
             $isDeleted = $this->departmentService->delete($id);
 

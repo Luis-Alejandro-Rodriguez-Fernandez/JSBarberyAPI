@@ -7,6 +7,7 @@ namespace App\Models\Reservations;
 use App\Models\Services\Services;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Reservation extends Model
@@ -43,6 +44,10 @@ class Reservation extends Model
     public function getUserId(): ?int
     {
         return $this->id_user;
+    }
+
+    public function hasUserId(): bool {
+        return !is_null($this->getUserId());
     }
 
     public function getPhone(): ?string
@@ -121,7 +126,7 @@ class Reservation extends Model
         return $this->getServiceRelation;
     }
 
-    public function getServiceRelation()
+    public function getServiceRelation(): BelongsTo
     {
         return $this->belongsTo(Services::class, 'id_service', 'id');
     }
@@ -147,6 +152,8 @@ class Reservation extends Model
             'email' => $email,
             'appointment' => $appointment,
             'price' => $price,
+            'confirmation' => 0,
+            'canceled' => 0,
         ]);
     }
 

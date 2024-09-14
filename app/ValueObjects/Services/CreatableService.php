@@ -59,11 +59,11 @@ class  CreatableService extends CreatableObject
      * @throws Exception
      */
     public static function create(
-        int $idDepartment,
-        string $name,
-        int $duration,
-        float $price,
-        string $description = "",
+        ?int $idDepartment,
+        ?string $name,
+        ?int $duration,
+        ?float $price,
+        ?string $description = "",
     ): self
     {
 

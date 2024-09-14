@@ -22,7 +22,7 @@ class CreatableDepartment extends CreatableObject
     /**
      * @throws Exception
      */
-    public static function create(string $name = ""): self
+    public static function create(?string $name = ""): self
     {
 
         if (empty($name)) {

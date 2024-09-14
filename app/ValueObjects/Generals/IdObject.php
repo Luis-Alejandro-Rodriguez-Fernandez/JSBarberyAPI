@@ -22,7 +22,7 @@ class IdObject
     /**
      * @throws Exception
      */
-    public static function create($id): self
+    public static function create(?int $id): self
     {
             if (is_null($id)) {
                 throw new Exception("El identificador es un dato obligatorio");

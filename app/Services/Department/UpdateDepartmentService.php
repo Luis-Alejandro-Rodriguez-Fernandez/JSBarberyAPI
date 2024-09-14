@@ -21,7 +21,7 @@ class UpdateDepartmentService extends Service
     /**
      * @throws Exception
      */
-    public function update(int $id, EditableDepartment $newDepartmentData): DepartmentResource
+    public function update(?int $id, EditableDepartment $newDepartmentData): DepartmentResource
     {
         $department = Department::query()->find($id);
 

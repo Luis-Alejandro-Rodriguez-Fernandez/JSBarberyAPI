@@ -23,37 +23,47 @@ class Config extends Model
         return $this->id;
     }
 
-    public function getPhone(): string
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
 
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    public function getFirstJournal()
+    public function getFirstJournalStart(): ?string
     {
-
+        return (!is_null($this->first_journal) ? explode("-", $this->first_journal)[0] : null) ?? null;
     }
 
-    public function getSecondJournal()
+    public function getFirstJournalEnd(): ?string
     {
-
+        return (!is_null($this->first_journal) ? explode("-", $this->first_journal)[1] : null) ?? null;
     }
 
-    public function getDisabledDays(): array
+    public function getSecondJournalStart(): ?string
+    {
+        return (!is_null($this->second_journal) ? explode("-", $this->second_journal)[0] : null) ?? null;
+    }
+
+    public function getSecondJournalEnd(): ?string
+    {
+        return (!is_null($this->second_journal) ? explode("-", $this->second_journal)[1] : null) ?? null;
+    }
+
+    public function getDisabledDays(): ?array
     {
         return $this->disabled_days;
     }
 
-    public function getInstagram(): string
+    public function getInstagram(): ?string
     {
         return $this->instagram;
     }
 
-    public function getTiktok(): string
+    public function getTiktok(): ?string
     {
         return $this->tiktok;
     }

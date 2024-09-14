@@ -13,7 +13,7 @@ class UserReservationsItem
     public function __construct(
         private int $id,
         private string $hash,
-        private string $phone,
+        private ?string $phone,
         private string $email,
         private float $price,
         private string $appointment,
@@ -35,7 +35,7 @@ class UserReservationsItem
             $item->getAppointment(),
             $item->isConfirmed(),
             $item->isCanceled(),
-            $item->getService(),
+            $item->getServiceRelation,
         );
     }
 

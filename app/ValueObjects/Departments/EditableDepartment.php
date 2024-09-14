@@ -29,7 +29,7 @@ class EditableDepartment extends EditableObject
     /**
      * @throws Exception
      */
-    public static function create(int $id, string $name): self
+    public static function create(int $id, ?string $name): self
     {
         if (empty($name)) {
             throw new Exception("El nombre es obligatorio");

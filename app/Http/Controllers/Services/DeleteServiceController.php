@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Services;
 
 use App\Http\Controllers\Controller;
 use App\Services\Service\DeleteServiceService;
+use App\Services\Service\GetServiceService;
 use App\ValueObjects\Generals\IdObject;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -13,7 +14,10 @@ class DeleteServiceController extends Controller
 
     protected DeleteServiceService $deleteServiceService;
 
-    public function __construct(DeleteServiceService $deleteServiceService)
+    public function __construct(
+        DeleteServiceService               $deleteServiceService,
+        private readonly GetServiceService $getServiceService,
+    )
     {
         $this->deleteServiceService = $deleteServiceService;
     }
@@ -25,10 +29,10 @@ class DeleteServiceController extends Controller
         try {
             $id = IdObject::create($requestId)->value();
 
-            $this->deleteServiceService->delete($id);
+            $this->getServiceService->find($id);
 
-        }catch (Exception $exception)
-        {
+            $this->deleteServiceService->delete($id);
+        } catch (Exception $exception) {
             return $this->generalMethods()->responseToApp(0, null, $exception->getMessage());
         }
 

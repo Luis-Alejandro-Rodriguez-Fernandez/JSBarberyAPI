@@ -21,7 +21,6 @@ class DepartmentRepository implements RepositoryBaseInterface
     public function find(int $id): Model|null
     {
         return Department::query()
-            ->withoutGlobalScopes()
             ->whereNull('deleted_at')
             ->find($id);
     }

@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class SetReservationController extends Controller
 {
     public function __construct(
-        private ReservationRepository $repository,
         private ServiceRepository $serviceRepository,
         private ReservationCreator $creator,
     )
@@ -31,13 +30,12 @@ class SetReservationController extends Controller
                 throw new Exception("Acceso Denegado");
             }
 
-            $service = null;
             $serviceId = $request->input('service_id');
             $date = $request->input('date');
             $time = $request->input('time');
 
             /** @var User $user */
-            $user = auth()->user;
+            $user = auth()->user();
 
             if (is_null($serviceId)) {
                 throw new Exception("Servicio desconocido");
@@ -66,8 +64,7 @@ class SetReservationController extends Controller
                 date('Y-m-d H:i:s', $datetime),
             );
 
-
-            return $this->generalMethods()->responseToApp(1, UserReservationsItem::create($reservation));
+            return $this->generalMethods()->responseToApp(1, UserReservationsItem::create($reservation)->toArray());
         } catch (Exception $exception) {
             return $this->generalMethods()->responseToApp(0, null, $exception->getMessage());
         }

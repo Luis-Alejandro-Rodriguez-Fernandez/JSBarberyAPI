@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class SetUnauthenticatedReservationController extends Controller
 {
     public function __construct(
-        private ReservationRepository $repository,
         private ServiceRepository $serviceRepository,
         private UsersRepository $usersRepository,
         private ReservationCreator $creator,
@@ -79,8 +78,7 @@ class SetUnauthenticatedReservationController extends Controller
                 date('Y-m-d H:i:s', $datetime),
             );
 
-
-            return $this->generalMethods()->responseToApp(1, UserReservationsItem::create($reservation));
+            return $this->generalMethods()->responseToApp(1, $reservation);
         } catch (Exception $exception) {
             return $this->generalMethods()->responseToApp(0, null, $exception->getMessage());
         }

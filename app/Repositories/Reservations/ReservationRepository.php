@@ -4,12 +4,13 @@ namespace App\Repositories\Reservations;
 
 use App\Models\Reservations\Reservation;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class ReservationRepository
 {
 
-    public function find(int $id): Reservation|Model|null
+    public function find(?int $id): Reservation|Model|null
     {
         return Reservation::query()->find($id);
     }
@@ -21,17 +22,21 @@ class ReservationRepository
     {
         return Reservation::query()
             ->withoutGlobalScopes()
-            ->join('services as s', 's.id', '=', 'reservation.id_service')
-            ->leftJoin('user as u', 'u.id', '=', 'reservation.id_user')
-            ->selectRaw('COALECSE(u.name, reservation.name) as name')
-            ->selectRaw('COALECSE(u.last_name, reservation.last_name) as last_name')
+            ->join('services as s', 's.id', '=', 'reservations.id_service')
+            ->leftJoin('users as u', 'u.id', '=', 'reservations.id_user')
+            ->selectRaw('COALESCE(u.name, reservations.name) as name')
+            ->selectRaw('COALESCE(u.last_name, reservations.last_name) as last_name')
+            ->selectRaw('COALESCE(reservations.id_user, NULL) as id_user')
             ->selectRaw('s.name as service_name')
-            ->selectRaw('COALECSE(u.phone, reservation.phone) as phone')
-            ->selectRaw('COALECSE(u.email, reservation.email) as email')
-            ->selectRaw('reservation.appointment as appointment')
-            ->selectRaw('reservation.confirmation as confirmation')
-            ->selectRaw('reservation.canceled as canceled')
-            ->selectRaw('reservation.hash as hash')
+            ->selectRaw('COALESCE(u.phone, reservations.phone) as phone')
+            ->selectRaw('COALESCE(u.email, reservations.email) as email')
+            ->selectRaw('reservations.appointment as appointment')
+            ->selectRaw('reservations.confirmation as confirmation')
+            ->selectRaw('reservations.canceled as canceled')
+            ->selectRaw('reservations.hash as hash')
+            ->selectRaw('reservations.id as id')
+            ->selectRaw('COALESCE(reservations.price, s.price) as price')
+            ->whereDate('reservations.appointment', '>=', Carbon::now()->toDateString())
             ->get();
     }
 
@@ -51,8 +56,9 @@ class ReservationRepository
             ->selectRaw('appointment')
             ->selectRaw('confirmation')
             ->selectRaw('canceled')
+            ->selectRaw('id_service')
             ->where('id_user', '=', $user->getId())
-            ->whereRaw('appointment < CURDATE()')
+            ->whereDate('appointment', '>=', Carbon::now()->toDateString())
             ->with(['getServiceRelation'])
             ->get();
     }

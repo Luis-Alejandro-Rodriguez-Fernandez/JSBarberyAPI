@@ -25,12 +25,12 @@ class  UpdateConfigService
         $config = $this->configRepository->getConfig();
 
         $config->email = $configData->getEmail();
-        $config->email = $configData->getPhone();
+        $config->phone = $configData->getPhone();
         $config->first_journal = $configData->getFirstJournal();
         $config->second_journal = $configData->getSecondJournal();
         $config->disabled_days = $configData->getDisabledDays();
-        $config->disabled_days = $configData->getInstagram();
-        $config->disabled_days = $configData->getTiktok();
+        $config->instagram = $configData->getInstagram();
+        $config->tiktok = $configData->getTiktok();
 
         if (!$config->save()) {
             throw new Exception("No se puedo guardar los cambios a la configuración");

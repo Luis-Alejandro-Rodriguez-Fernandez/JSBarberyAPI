@@ -8,12 +8,12 @@ use App\Repositories\Users\UsersRepository;
 use App\ValueObjects\Reservations\UserReservationsItem;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
 class GetUserReservationsController extends Controller
 {
     public function __construct(
-        private UsersRepository $usersRepository,
+        private UsersRepository       $usersRepository,
         private ReservationRepository $reservationRepository,
     )
     {

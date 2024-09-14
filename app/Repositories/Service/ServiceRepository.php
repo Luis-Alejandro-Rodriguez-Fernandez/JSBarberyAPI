@@ -19,7 +19,7 @@ class ServiceRepository implements RepositoryBaseInterface
      */
     public function find(int $id): Model|null
     {
-        return Services::query()->withoutGlobalScopes()->find($id);
+        return Services::query()->find($id);
     }
 
     /**

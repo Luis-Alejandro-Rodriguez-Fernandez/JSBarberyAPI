@@ -15,8 +15,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class UpdateReservationController extends Controller
 {
     public function __construct(
-        private ReservationRepository $repository,
-        private ReservationUpdater $reservationUpdater,
+        private ReservationRepository      $repository,
+        private ReservationUpdater         $reservationUpdater,
     )
     {
     }
@@ -38,19 +38,23 @@ class UpdateReservationController extends Controller
 
             $reservation = $this->repository->find($reservationId);
 
+            if ($reservation->hasUserId()) {
+                auth()->check() && auth()->user()->getId() === $reservation->getUserId() ?: throw new Exception("No se pudo realizar al solicitud");
+            }
+
             if (is_null($reservation)) {
                 throw new Exception("No se ha encontrado la reserva indicada");
             }
 
-            $datetime = strtotime(sprintf("%s%s", $date, $time));
+            $datetime = date('Y-m-d H:i:s', strtotime(sprintf("%s%s", $date, $time)));
 
             if (!$datetime) {
                 throw new Exception("El formato de la fecha no es válidado");
             }
 
-            $reservation = $this->reservationUpdater->update();
+            $reservation = $this->reservationUpdater->update($reservation, $datetime);
 
-            return $this->generalMethods()->responseToApp(1, UserReservationsItem::create($reservation));
+            return $this->generalMethods()->responseToApp(1, UserReservationsItem::create($reservation)->toArray());
         } catch (Exception $exception) {
             return $this->generalMethods()->responseToApp(0, null, $exception->getMessage());
         }

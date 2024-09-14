@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Roles\Roles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -77,5 +78,15 @@ class User extends Authenticatable
     public function getLastName(): string
     {
         return $this->last_name;
+    }
+
+    public function getRoleId(): ?int
+    {
+        return $this->role_id;
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->getRoleId() === Roles::getBossRole();
     }
 }

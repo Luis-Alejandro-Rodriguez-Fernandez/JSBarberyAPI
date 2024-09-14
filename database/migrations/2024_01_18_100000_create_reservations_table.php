@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_service');
             $table->string('name');
             $table->string('last_name');
-            $table->string('phone');
+            $table->string('phone')->nullable();
             $table->string('email');
             $table->float('price');
             $table->dateTime('appointment');

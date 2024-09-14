@@ -4,6 +4,7 @@
 namespace App\Helpers;
 
 
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 
@@ -45,8 +46,8 @@ class generalClass
 
     public function parseFecha(
         ?string $fecha,
-        string $formato = 'd/m/Y',
-        string $formatoOrdenar = 'U'
+        string  $formato = 'd/m/Y',
+        string  $formatoOrdenar = 'U'
     ): array
     {
         return [
@@ -109,5 +110,15 @@ class generalClass
     public function saveFile($folder, $file): string
     {
         return Storage::disk('local')->put($folder, $file);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function isAdminUser(): void
+    {
+        if (!auth()->check() || !auth()->user()->isAdmin()) {
+            throw new Exception("Acceso denegado");
+        }
     }
 }

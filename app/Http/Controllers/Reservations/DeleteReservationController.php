@@ -7,7 +7,8 @@ namespace App\Http\Controllers\Reservations;
 use App\Http\Controllers\Controller;
 use App\Repositories\Reservations\ReservationRepository;
 use Exception;
-use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DeleteReservationController extends Controller
 {
@@ -17,7 +18,7 @@ class DeleteReservationController extends Controller
     {
     }
 
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): JsonResponse
     {
         try {
 
@@ -35,10 +36,10 @@ class DeleteReservationController extends Controller
                 throw new Exception("No se pudo eliminar la reserva, intentelo más tarde");
             }
 
-            $this->generalMethods()->responseToApp(1, null, "Reserva eliminada correctamente");
+            return $this->generalMethods()->responseToApp(1, null, "Reserva eliminada correctamente");
 
         } catch (Exception $exception) {
-            $this->generalMethods()->responseToApp(0, null, $exception->getMessage());
+            return $this->generalMethods()->responseToApp(0, null, $exception->getMessage());
         }
     }
 }

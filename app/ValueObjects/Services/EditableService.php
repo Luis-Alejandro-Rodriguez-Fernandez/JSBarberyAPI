@@ -76,12 +76,12 @@ class EditableService extends EditableObject
      * @throws Exception
      */
     public static function create(
-        int $id,
-        string $name,
-        int $idDepartment,
-        string $duration,
-        string $price,
-        string $description = "",
+        ?int $id,
+        ?string $name,
+        ?int $idDepartment,
+        ?string $duration,
+        ?string $price,
+        ?string $description = "",
         bool $active = true,
     ): self
     {

@@ -17,7 +17,7 @@ class DeleteServiceService
     /**
      * @throws Exception
      */
-    public function delete(int $id): void
+    public function delete(?int $id): void
     {
         $isDeleted = $this->repository->delete($id);
 
